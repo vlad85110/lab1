@@ -1,4 +1,3 @@
-
 #include "trit.h"
 
 using namespace std;
@@ -6,9 +5,13 @@ using namespace std;
 int main() {
     custom::Tritset set(50000);
     size_t allocLength = set.capacity();
-    set[1] = 1;
+    vector<int> a(10);
+    int b = a.capacity();
 
-    cout <<set[0]<< endl;
+    set[50000] = custom::Unknown;
+
+
+    cout <<allocLength<< endl;
 
     return 0;
 }

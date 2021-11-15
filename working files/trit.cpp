@@ -2,10 +2,10 @@
 
 
 namespace custom {
-    Tritset::Tritset(size_t length) {
-        this->length = length;
-        data = new uint [length];
-        assert(length >= 1000 * 2 / 8 / sizeof(uint));
+    Tritset::Tritset(size_t size) {
+        this->size = size;
+        data = new uint [size];
+        assert(size >= 1000 * 2 / 8 / sizeof(uint));
         assert(data);
     }
 
@@ -13,12 +13,10 @@ namespace custom {
         delete [] data;
     }
 
-    size_t Tritset::capacity() {
-        return length;
-    }
-
-    uint Tritset::operator[](int index) {
-        return data[index];
+    size_t Tritset::capacity() const {
+        return size;
     }
 
 }
+
+
