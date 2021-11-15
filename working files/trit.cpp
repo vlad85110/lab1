@@ -16,7 +16,6 @@ namespace custom {
     size_t Tritset::capacity() const {
         return size;
     }
-
 }
 
 

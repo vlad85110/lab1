@@ -32,7 +32,7 @@ namespace custom {
             }
         };
     public:
-        Tritset(size_t length);
+        explicit Tritset(size_t length);
         ~Tritset();
         size_t capacity() const;
         TritProxy operator[](int index) {
