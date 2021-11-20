@@ -62,9 +62,9 @@ namespace custom {
         }
 
         operator Trit(){
-            return 2;
+            return Unknown;
         }
-
+        // &= ~(000000000000000011 << pos)
 
     };
 }
