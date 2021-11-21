@@ -7,20 +7,22 @@ namespace custom {
     class Tritset;
     class TritProxy;
 
+    enum Trit {Unknown, True, False};
+
     size_t round_up(size_t x, size_t y);
 
-    enum Trit {
-        False, Unknown, True
-    };
+    size_t uint_to_trit(size_t val);
+
+    size_t trit_to_uint(size_t val);
 
     void print_trit (Trit val);
 
     class TritProxy {
+        friend Tritset;
     private:
         Tritset &origin;
         size_t index;
         size_t shift;
-        friend class Tritset;
     public:
         TritProxy(Tritset &origin, size_t index);
 
@@ -44,10 +46,9 @@ namespace custom {
 
         size_t capacity() const;
 
-        TritProxy operator[](int index) {
-            TritProxy temp(*this, index);
-            return temp;
-        }
+        void resize(size_t new_size);
+
+        TritProxy operator[](int index);
 
         void clear_trit (size_t index, size_t pos);
 
@@ -55,5 +56,4 @@ namespace custom {
 
         Trit get_trit(size_t index, size_t pos);
     };
-
 }
