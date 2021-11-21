@@ -13,7 +13,6 @@ namespace custom {
     public:
         uint *data;
         size_t size;
-
         class TritProxy {
         private:
             Tritset &origin;
@@ -22,8 +21,8 @@ namespace custom {
         public:
             TritProxy(Tritset &origin, size_t index) : origin(origin) {
                 this->origin = origin;
-                this->index = index;
-                this->position =  16 - (index % (sizeof(uint) * 8 / 2));
+                this->index = index * 2 / 8 / sizeof(uint);
+                this->position =  32 - (index % (sizeof(uint) * 8 / 2));
             }
 
             ~TritProxy() {
@@ -37,17 +36,23 @@ namespace custom {
                         write(value);
                 }
                 else
-                    origin.data[index * 2 / 8 / sizeof(uint)] |= value << position;
-
-
+                    write(value);
                 /*not ended*/
                 return *this;
             }
 
             void write (size_t value) {
-                origin.data[index * 2 / 8 / sizeof(uint)] &= value << position;
+                origin.set_trit(index, position, value);
             }
 
+            void read () {
+                origin.get_trit(index, position);
+                origin.clear_trit(index, position);
+            }
+
+            operator Trit() {
+                return origin.get_trit(index, position);
+            }
         };
     public:
         explicit Tritset(size_t length);
@@ -61,10 +66,26 @@ namespace custom {
             return temp;
         }
 
-        operator Trit(){
-            return Unknown;
+        void clear_trit (size_t index, size_t pos) {
+            uint cleaner = ~(3 << pos);
+            data[index] &= cleaner;
+        }
+
+        void set_trit(size_t index, size_t pos, size_t value) {
+            clear_trit(index, pos);
+            data[index] = value << pos;
+        }
+
+        Trit get_trit(size_t index, size_t pos) {
+            uint getter = 3 << pos;
+            data[index] &= getter;
+            getter >>= pos;
+            return (Trit)getter;
+        }
+
+        explicit operator Trit() {
+            return get_trit(1,2);
         }
         // &= ~(000000000000000011 << pos)
-
     };
 }

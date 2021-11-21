@@ -13,15 +13,13 @@ namespace custom {
     }
 
     size_t Tritset::capacity() const {
-        return size;
+        return size * sizeof(uint) * 8 / 2;
     }
 
     size_t round_up(size_t x, size_t y)
     {
          return x / y + ((x % y != 0) ? 1 : 0);
     }
-
-
 }
 
 
