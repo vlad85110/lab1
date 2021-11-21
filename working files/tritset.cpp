@@ -1,4 +1,5 @@
 #include "trit.h"
+#include "func.h"
 
 
 namespace custom {

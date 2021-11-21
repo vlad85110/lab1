@@ -1,3 +1,4 @@
+#include "func.h"
 #include "trit.h"
 
 
@@ -34,10 +35,6 @@ int main() {
     set[1000000000] = Unknown;
     set[1000000] = False;
     assert(allocLength == set.capacity());
-
-
-
-
 
     return 0;
 }

@@ -1,3 +1,4 @@
+#include "func.h"
 #include "trit.h"
 
 
