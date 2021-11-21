@@ -6,28 +6,21 @@ namespace custom {
         return x / y + ((x % y != 0) ? 1 : 0);
     }
 
-    Tritset::Tritset(size_t size) {
-        this->size = round_up(size * 2, 8 * sizeof(uint));
-        data = new uint [this->size];
-        assert(data);
-    }
-
-    Tritset::~Tritset() {
-        delete [] data;
-    }
-
-    size_t Tritset::capacity() const {
-        return size * sizeof(uint) * 8 / 2;
-    }
-
-    void Tritset::clear_trit(size_t index, size_t pos) {
-        uint cleaner = ~(3 << pos);
-        data[index] &= cleaner;
-    }
-
-    void Tritset::set_trit(size_t index, size_t pos, size_t value) {
-        clear_trit(index, pos);
-        data[index] = value << pos;
+   void print_trit (Trit val){
+       switch (val) {
+           case 0: {
+               std::cout << "unknown" << std::endl;
+               break;
+           }
+           case 1: {
+               std::cout << "true" << std::endl;
+               break;
+           }
+           case 2: {
+               std::cout << "false" << std::endl;
+               break;
+           }
+       }
     }
 }
 
