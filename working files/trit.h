@@ -12,10 +12,10 @@ namespace custom {
     void print_trit(Trit val);
 
     class TritProxy {
-        friend Tritset;
     private:
         Tritset &origin;
         size_t index;
+        size_t trit_index;
         size_t shift;
     public:
         TritProxy(Tritset &origin, size_t index);
@@ -47,5 +47,7 @@ namespace custom {
         void set_trit(size_t index, size_t pos, size_t value);
 
         Trit get_trit(size_t index, size_t pos);
+
+        void shrink ();
     };
 }

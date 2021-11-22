@@ -5,6 +5,7 @@
 namespace custom {
     TritProxy::TritProxy(Tritset &origin, size_t index) : origin(origin) {
         this->origin = origin;
+        this->trit_index = index;
         this->index = trit_to_uint(index);
         size_t pos =  15 - (index % (sizeof(uint) * 8 / 2));
         this->shift = pos * 2;
@@ -13,7 +14,7 @@ namespace custom {
     TritProxy &TritProxy::operator=(uint value) {
         if (uint_to_trit(index) >= origin.capacity()) {
             if (value != Unknown) {
-                origin.resize(uint_to_trit(index));
+                origin.resize(trit_index);
                 write(value);
             }
         }
