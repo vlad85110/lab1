@@ -40,9 +40,9 @@ protected:
     custom::Tritset _t1;
 };
 
-TEST_F(TritsetTest, constructor_test) {
+//TEST_F(TritsetTest, constructor_test) {
 
-}
+//}
 
 /*int main() {
    return 0;
