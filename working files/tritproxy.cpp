@@ -14,7 +14,7 @@ namespace custom {
     TritProxy &TritProxy::operator=(uint value) {
         if (uint_to_trit(index) >= origin.capacity()) {
             if (value != Unknown) {
-                origin.resize(trit_index);
+                origin.resize(trit_index + 1);
                 write(value);
             }
         }

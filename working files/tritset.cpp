@@ -21,8 +21,9 @@ namespace custom {
         return uint_to_trit(size);
     }
 
-    void Tritset::resize(size_t trit_index)  {
-        size_t new_size = trit_to_uint(trit_index) + 1;
+    void Tritset::resize(size_t new_size)  {
+        if (new_size != 0)
+            new_size = trit_to_uint(new_size) + 1;
         auto temp = new uint [new_size];
 
         for (int i = 0; i < size && i <new_size; ++i)
@@ -60,7 +61,7 @@ namespace custom {
         for (size_t ind = size - 1; ind >= 0; --ind)
             for (int sh = 0; sh <= 30; ++sh)
                 if (get_trit(ind, sh) != Unknown) {
-                    resize(ind);
+                    resize(ind + 1);
                     return;
                 }
     }
