@@ -4,7 +4,11 @@
 
 namespace custom {
     Tritset::Tritset(size_t size) {
-        this->size = round_up(size * 2, 8 * sizeof(uint));
+        if (size != 0)
+            this->size = round_up(size * 2, 8 * sizeof(uint));
+        else
+            this->size =0;
+
         data = new uint [this->size];
         assert(data);
     }
