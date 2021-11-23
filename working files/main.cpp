@@ -37,12 +37,14 @@ TEST(conversion_test, t_t_u){
 
 class TritsetTest : public ::testing::Test {
 protected:
+    virtual void setup () {
+    }
     custom::Tritset _t1;
 };
 
-//TEST_F(TritsetTest, constructor_test) {
-
-//}
+TEST_F(TritsetTest, constructor_test) {
+    EXPECT_EQ(1,_t1.capacity());
+}
 
 /*int main() {
    return 0;
