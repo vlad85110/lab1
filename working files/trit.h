@@ -1,4 +1,5 @@
 #include <iostream>
+#include <gtest/gtest.h>
 
 namespace custom {
     class Tritset;
@@ -28,6 +29,7 @@ namespace custom {
     };
 
     class Tritset {
+        friend class TritsetTest;
     private:
         uint *data;
         size_t size;
@@ -49,5 +51,13 @@ namespace custom {
         Trit get_trit(size_t index, size_t pos);
 
         void shrink ();
+    };
+
+    class TritsetTest : public ::testing::Test {
+    protected:
+        void SetUp() {
+        }
+        TritsetTest(int a);
+        Tritset t;
     };
 }

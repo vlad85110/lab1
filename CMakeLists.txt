@@ -12,7 +12,5 @@ include_directories(lib/googletest/googlemock/include)
 
 SET(SOURCE_FILES working\ files/main.cpp)
 add_executable(lab1 working\ files/main.cpp "working files/func.h" "working files/func.cpp" "working files/tritset.cpp"
-        "working files/tritproxy.cpp" "working files/trit.h" "working files/Test_classes/Test_Tritset.cpp"
-        "working files/Test_classes/Test_Tritset.h" "working files/Test_classes/Test_Tritproxy.cpp"
-        "working files/Test_classes/Test_Tritproxy.h")
+        "working files/tritproxy.cpp" "working files/trit.h")
 target_link_libraries(lab1 gtest gtest_main)

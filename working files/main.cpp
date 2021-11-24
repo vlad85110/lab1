@@ -1,6 +1,5 @@
 #include "func.h"
 #include "trit.h"
-#include <gtest/gtest.h>
 
 
 using namespace std;
@@ -8,6 +7,7 @@ using custom::Unknown;
 using custom::True;
 using custom::False;
 using custom::Trit;
+using custom::TritsetTest;
 
 
 TEST(Round_test, equal) {
@@ -34,13 +34,6 @@ TEST(conversion_test, t_t_u){
     EXPECT_EQ(2, custom::trit_to_uint(32));
     EXPECT_EQ(2, custom::trit_to_uint(33));
 }
-
-class TritsetTest : public ::testing::Test {
-protected:
-    void SetUp() {
-
-    }
-};
 
 TEST_F(TritsetTest, capacity_test) {
     {
@@ -87,6 +80,7 @@ TEST_F(TritsetTest, resize_test) {
 
 
 /*int main() {
+
    return 0;
 }*/
                     
