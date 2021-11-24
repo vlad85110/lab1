@@ -72,9 +72,24 @@ namespace custom {
     }
 
     void TritsetTest::SetUp() {
-        //_t1.data = new uint [1];
-        //_t2.data = new uint [1];
-       // _t3.data = new uint [1];
-        //_t4.data = new uint [1];
+        t1.data = new uint [1];
+        t2.data = new uint [2];
+        t3.data = new uint [3];
+        t4.data = new uint [4];
+    }
+
+    void TritsetTest::TearDown() {
+        delete []t1.data;
+        delete [] t2.data;
+        delete [] t3.data;
+        delete [] t4.data;
+    }
+
+    const uint TritsetTest::get_data(const Tritset &obj, int index) const {
+        return obj.data[index];
+    }
+
+    const size_t TritsetTest::get_size(const Tritset &obj) const {
+        return obj.size;
     }
 }

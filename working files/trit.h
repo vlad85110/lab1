@@ -13,12 +13,15 @@ namespace custom {
     void print_trit(Trit val);
 
     class TritProxy {
+        friend class TritsetTest;
     private:
         Tritset &origin;
-        size_t index;
+        size_t uint_index;
         size_t trit_index;
         size_t shift;
     public:
+        TritProxy(Tritset &origin);
+
         TritProxy(Tritset &origin, size_t index);
 
         TritProxy &operator=(uint value);
@@ -52,15 +55,37 @@ namespace custom {
 
         Trit get_trit(size_t index, size_t pos);
 
-        void shrink ();
+        void shrink();
     };
 
     class TritsetTest : public ::testing::Test {
     protected:
-        virtual void SetUp ();
-        Tritset _t1;
-        //Tritset _t2;
-        //Tritset _t3;
-        //Tritset _t4;
+        void SetUp() override;
+        void TearDown() override;
+        const size_t get_size(const Tritset &obj) const;
+        const uint get_data(const Tritset &obj, int index) const;
+
+        Tritset t1;
+        Tritset t2;
+        Tritset t3;
+        Tritset t4;
     };
+
+   /* class TritproxyTest : public ::testing::Test {
+    protected:
+    public:
+        TritproxyTest();
+
+    protected:
+        void SetUp() override;
+        void TearDown() override;
+        size_t get_trit_index(const TritProxy &obj) const;
+        size_t get_index(const TritProxy &obj) const;
+        size_t get_shift(const TritProxy &obj) const;
+
+        TritProxy t1;
+        TritProxy t2;
+        TritProxy t3;
+        TritProxy t4;
+    };*/
 }

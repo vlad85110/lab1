@@ -10,6 +10,7 @@ using custom::Trit;
 using custom::TritsetTest;
 
 
+
 TEST(Round_test, equal) {
     EXPECT_EQ(3, custom::round_up(5,2));
     EXPECT_EQ(4, custom::round_up(10,3));
@@ -54,9 +55,22 @@ TEST_F(TritsetTest, capacity_test) {
     }
 }
 
-/*TEST_F(TritsetTest, resize_test) {
-    _t1.resize(10);
-}*/
+TEST_F(TritsetTest, resize_test) {
+    t1.resize(10);
+    ASSERT_EQ(16,t1.capacity());
+    t2.resize(17);
+    ASSERT_EQ(32, t2.capacity());
+    t3.resize(40);
+    ASSERT_EQ(48, t3.capacity());
+    t4.resize(0);
+    ASSERT_EQ(0,t4.capacity());
+
+}
+
+TEST_F(TritsetTest, operator_brackes_test) {
+    t1[10] = True;
+    EXPECT_EQ(1, get_data(t1, 0));
+}
 
 
 
