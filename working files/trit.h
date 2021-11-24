@@ -34,6 +34,8 @@ namespace custom {
         uint *data;
         size_t size;
     public:
+        Tritset();
+
         explicit Tritset(size_t length);
 
         ~Tritset();
@@ -55,9 +57,10 @@ namespace custom {
 
     class TritsetTest : public ::testing::Test {
     protected:
-        void SetUp() {
-        }
-        TritsetTest(int a);
-        Tritset t;
+        virtual void SetUp ();
+        Tritset _t1;
+        //Tritset _t2;
+        //Tritset _t3;
+        //Tritset _t4;
     };
 }

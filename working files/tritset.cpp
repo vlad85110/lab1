@@ -3,6 +3,11 @@
 
 
 namespace custom {
+    Tritset::Tritset() {
+        data = nullptr;
+        size = 0;
+    }
+
     Tritset::Tritset(size_t size) {
         if (size != 0)
             this->size = round_up(size * 2, 8 * sizeof(uint));
@@ -64,5 +69,12 @@ namespace custom {
                     resize(ind + 1);
                     return;
                 }
+    }
+
+    void TritsetTest::SetUp() {
+        //_t1.data = new uint [1];
+        //_t2.data = new uint [1];
+       // _t3.data = new uint [1];
+        //_t4.data = new uint [1];
     }
 }

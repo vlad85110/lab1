@@ -54,28 +54,9 @@ TEST_F(TritsetTest, capacity_test) {
     }
 }
 
-TEST_F(TritsetTest, resize_test) {
-    {
-        custom::Tritset t1(1);
-        t1.resize(10);
-        ASSERT_EQ(16, t1.capacity());
-    }
-    {
-        custom::Tritset t1(30);
-        t1.resize(10);
-        ASSERT_EQ(16, t1.capacity());
-    }
-    {
-        custom::Tritset t1(0);
-        t1.resize(33);
-        ASSERT_EQ(48, t1.capacity());
-    }
-    {
-        custom::Tritset t1(40);
-        t1.resize(0);
-        ASSERT_EQ(0, t1.capacity());
-    }
-}
+/*TEST_F(TritsetTest, resize_test) {
+    _t1.resize(10);
+}*/
 
 
 
