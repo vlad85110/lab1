@@ -4,8 +4,9 @@
 
 namespace custom {
     Tritset::Tritset() {
-        data = nullptr;
-        size = 0;
+        data = new uint [1];
+        data[0] = 0;
+        size = 1;
     }
 
     Tritset::Tritset(size_t size) {
@@ -15,20 +16,29 @@ namespace custom {
             this->size =0;
 
         data = new uint [this->size];
+        for (size_t i = 0; i < this->size; ++i)
+            data[i] = 0;
         assert(data);
     }
 
     Tritset::~Tritset() {
+        if (size == 0)
+            return;
         delete [] data;
     }
 
     size_t Tritset::capacity() const {
-        return uint_to_trit(size);
+        return _trit(size);
     }
 
-    void Tritset::resize(size_t new_size)  {
-        if (new_size != 0)
-            new_size = trit_to_uint(new_size) + 1;
+    void Tritset::resize(size_t trit_size) {
+        if (trit_size == 0) {
+            delete [] data;
+            size = 0;
+            return;
+        }
+
+        size_t new_size = _uint(trit_size) + 1;
         auto temp = new uint [new_size];
 
         for (int i = 0; i < size && i <new_size; ++i)
@@ -43,8 +53,19 @@ namespace custom {
         return temp;
     }
 
+    Tritset & Tritset::operator=(const Tritset *obj) {
+        if (this == obj)
+            return *this;
+
+        this->resize(_trit(obj->size - 1));
+        for (size_t i = 0; i < this->size; ++i)
+            this->data[i] = obj->data[i];
+
+        return *this;
+    }
+
     void Tritset::clear_trit(size_t index, size_t shift) {
-        uint cleaner = ~(3 << shift);
+        uint cleaner = ~(dec(11) << shift);
         data[index] &= cleaner;
     }
 
@@ -54,9 +75,10 @@ namespace custom {
     }
 
     Trit Tritset::get_trit(size_t index, size_t shift) {
-        if (uint_to_trit(index) >= capacity())
+        if (_trit(index) >= capacity())
             return Unknown;
-        uint getter = 3 << shift;
+
+        uint getter = dec(11) << shift;
         getter &= data[index];
         getter >>= shift;
         return (Trit)getter;
@@ -64,25 +86,24 @@ namespace custom {
 
     void Tritset::shrink() {
         for (size_t ind = size - 1; ind >= 0; --ind)
-            for (int sh = 0; sh <= 30; ++sh)
-                if (get_trit(ind, sh) != Unknown) {
-                    resize(ind + 1);
-                    return;
-                }
+            if (data[ind] != 0) {
+                resize(_trit(ind) + 1);
+                return;
+            }
     }
 
     void TritsetTest::SetUp() {
-        t1.data = new uint [1];
-        t2.data = new uint [2];
-        t3.data = new uint [3];
-        t4.data = new uint [4];
+       t1 = new Tritset(10);
+       t2 = new Tritset(16);
+       t3 = new Tritset(60);
+       t4 = new Tritset(32);
     }
 
     void TritsetTest::TearDown() {
-        delete []t1.data;
-        delete [] t2.data;
-        delete [] t3.data;
-        delete [] t4.data;
+        delete t1;
+        delete t2;
+        delete t3;
+        delete t4;
     }
 
     const uint TritsetTest::get_data(const Tritset &obj, int index) const {

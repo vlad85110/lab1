@@ -1,5 +1,6 @@
 #include "func.h"
 #include "trit.h"
+#include <cmath>
 
 
 namespace custom {
@@ -7,11 +8,11 @@ namespace custom {
         return x / y + ((x % y != 0) ? 1 : 0);
     }
 
-    size_t uint_to_trit(size_t val) {
+    size_t _trit(size_t val) {
         return val * sizeof(uint) * 8 / 2;
     }
 
-    size_t trit_to_uint(size_t val) {
+    size_t _uint(size_t val) {
         return val * 2 / 8 / sizeof(uint);
     }
 
@@ -30,6 +31,15 @@ namespace custom {
                break;
            }
        }
+    }
+
+    size_t dec(size_t val) {
+        uint new_val = 0;
+        for (int i = 0; val > 0; ++i) {
+            new_val += (val % 10) * pow(2,i);
+            val /= 10;
+        }
+        return new_val;
     }
 }
 

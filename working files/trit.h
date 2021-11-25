@@ -19,23 +19,28 @@ namespace custom {
         size_t uint_index;
         size_t trit_index;
         size_t shift;
-    public:
-        TritProxy(Tritset &origin);
 
+        void write(size_t value);
+    public:
         TritProxy(Tritset &origin, size_t index);
 
         TritProxy &operator=(uint value);
-
-        void write(size_t value);
 
         operator Trit();
     };
 
     class Tritset {
         friend class TritsetTest;
+        friend class TritProxy;
     private:
         uint *data;
         size_t size;
+
+        void clear_trit(size_t index, size_t pos);
+
+        void set_trit(size_t index, size_t pos, size_t value);
+
+        Trit get_trit(size_t index, size_t pos);
     public:
         Tritset();
 
@@ -49,11 +54,7 @@ namespace custom {
 
         TritProxy operator[](int index);
 
-        void clear_trit(size_t index, size_t pos);
-
-        void set_trit(size_t index, size_t pos, size_t value);
-
-        Trit get_trit(size_t index, size_t pos);
+        Tritset & operator=(const Tritset *obj);
 
         void shrink();
     };
@@ -65,27 +66,9 @@ namespace custom {
         const size_t get_size(const Tritset &obj) const;
         const uint get_data(const Tritset &obj, int index) const;
 
-        Tritset t1;
-        Tritset t2;
-        Tritset t3;
-        Tritset t4;
+        Tritset *t1;
+        Tritset *t2;
+        Tritset *t3;
+        Tritset *t4;
     };
-
-   /* class TritproxyTest : public ::testing::Test {
-    protected:
-    public:
-        TritproxyTest();
-
-    protected:
-        void SetUp() override;
-        void TearDown() override;
-        size_t get_trit_index(const TritProxy &obj) const;
-        size_t get_index(const TritProxy &obj) const;
-        size_t get_shift(const TritProxy &obj) const;
-
-        TritProxy t1;
-        TritProxy t2;
-        TritProxy t3;
-        TritProxy t4;
-    };*/
 }
