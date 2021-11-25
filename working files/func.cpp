@@ -36,7 +36,7 @@ namespace custom {
     size_t dec(size_t val) {
         uint new_val = 0;
         for (int i = 0; val > 0; ++i) {
-            new_val += (val % 10) * pow(2,i);
+            new_val += (uint)((double)(val % 10) * pow(2,i));
             val /= 10;
         }
         return new_val;
