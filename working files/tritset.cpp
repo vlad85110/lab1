@@ -38,11 +38,11 @@ namespace custom {
             return;
         }
 
-        size_t new_size = _uint(trit_size) + 1;
+        size_t new_size = round_up(trit_size * 2, 8 * sizeof(uint));
         auto temp = new uint [new_size];
-
         for (int i = 0; i < size && i <new_size; ++i)
             temp[i] = data[i];
+
         delete [] data;
         size = new_size;
         data = temp;
@@ -53,13 +53,13 @@ namespace custom {
         return temp;
     }
 
-    Tritset & Tritset::operator=(const Tritset *obj) {
-        if (this == obj)
+    Tritset & Tritset::operator=(const Tritset &obj) {
+        if (this == &obj)
             return *this;
 
-        this->resize(_trit(obj->size - 1));
+        this->resize(_trit(obj.size));
         for (size_t i = 0; i < this->size; ++i)
-            this->data[i] = obj->data[i];
+            this->data[i] = obj.data[i];
 
         return *this;
     }
@@ -92,11 +92,71 @@ namespace custom {
             }
     }
 
+    Tritset Tritset::operator &(Tritset &s_2) {
+        size_t res_size = max(this->capacity(), s_2.capacity());
+        Tritset res(res_size);
+        size_t t_1, t_2;
+
+        for (int i = 0; i < res.size; ++i) {
+            for (int sh = 0; sh <= 30; sh+=2) {
+                t_1 = this->get_trit(i, sh);
+                t_2 = s_2.get_trit(i, sh);
+                res.set_trit(i, sh, _and(t_1, t_2));
+            }
+        }
+        return res;
+    }
+
+    Tritset Tritset::operator|(Tritset &s_2) {
+        size_t res_size = max(this->capacity(), s_2.capacity());
+        Tritset res(res_size);
+        size_t t_1, t_2;
+
+        for (int i = 0; i < res.size; ++i) {
+            for (int sh = 0; sh <= 30; sh += 2) {
+                t_1 = this->get_trit(i, sh);
+                t_2 = s_2.get_trit(i, sh);
+                res.set_trit(i, sh, _or(t_1, t_2));
+            }
+        }
+        return res;
+    }
+
+    Tritset Tritset::operator~() {
+        Tritset res (this->capacity());
+        size_t t;
+
+        for (int i = 0; i < res.size; ++i)
+            for (int sh = 0; sh <= 30; sh += 2) {
+                t = this->get_trit(i, sh);
+                res.set_trit(i, sh, _not(t));
+            }
+        return res;
+    }
+
+    std::unordered_map<Trit, int, std::hash<int>> Tritset::cardinality() {
+
+    }
+
+    void Tritset::trim(size_t lastIndex) {
+        resize(lastIndex + 1);
+    }
+
+    size_t Tritset::length() {
+        for (size_t ind = size - 1; ind >= 0; --ind)
+            if (data[ind] != 0)
+                for (size_t sh = 30, pos = 0; sh >= 0; sh -= 2, pos +=2)
+                    if (get_trit(ind, sh) != Unknown)
+                        return _trit(ind) + pos;
+    }
+
+
+/*class for testing*/
     void TritsetTest::SetUp() {
        t1 = new Tritset(10);
        t2 = new Tritset(16);
        t3 = new Tritset(60);
-       t4 = new Tritset(32);
+       t4 = new Tritset(33);
     }
 
     void TritsetTest::TearDown() {

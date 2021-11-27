@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unordered_map>
 #include <gtest/gtest.h>
 
 namespace custom {
@@ -54,9 +55,21 @@ namespace custom {
 
         TritProxy operator[](int index);
 
-        Tritset & operator=(const Tritset *obj);
+        Tritset & operator=(const Tritset &obj);
 
         void shrink();
+
+        Tritset operator&(Tritset &s_2);
+
+        Tritset operator|(Tritset &s_2);
+
+        Tritset operator~();
+
+        std::unordered_map< Trit, int, std::hash<int> > cardinality();
+
+        void trim(size_t lastIndex);
+
+        size_t length();
     };
 
     class TritsetTest : public ::testing::Test {

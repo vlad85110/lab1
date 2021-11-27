@@ -11,7 +11,6 @@ using custom::TritsetTest;
 using custom::dec;
 
 
-
 TEST(Round_test, equal) {
     EXPECT_EQ(3, custom::round_up(5,2));
     EXPECT_EQ(4, custom::round_up(10,3));
@@ -38,10 +37,6 @@ TEST(conversion_test, t_t_u){
 }
 
 TEST(conversion_test, b_t_d) {
-    EXPECT_EQ(3, custom::dec(11));
-    EXPECT_EQ(5, custom::dec(101));
-    EXPECT_EQ(6, custom::dec(110));
-    EXPECT_EQ(7, custom::dec(111));
 }
 
 TEST_F(TritsetTest, capacity_test) {
@@ -90,13 +85,13 @@ TEST_F(TritsetTest, operator_brackes_test) {
 
 TEST_F(TritsetTest, operator_as_test) {
     (*t1)[48] = False;
-    *t2 = t1;
+    *t2 = *t1;
     ASSERT_EQ(t1->capacity(), t2->capacity());
     ASSERT_EQ((Trit)(*t1)[48], (Trit)(*t2)[48]);
 
     (*t3)[48] = Unknown;
     (*t3)[0] = True;
-    *t4 = t3;
+    *t4 = *t3;
     ASSERT_EQ(t3->capacity(), t4->capacity());
     ASSERT_EQ((Trit)(*t3)[0], (Trit)(*t4)[0]);
 }
@@ -118,6 +113,57 @@ TEST_F(TritsetTest, shirnk_test) {
     ASSERT_EQ(16, t3->capacity());
 }
 
+TEST(op_test, _and_) {
+    EXPECT_EQ(False, custom::_and(False, False));
+    EXPECT_EQ(False, custom::_and(False, Unknown));
+    EXPECT_EQ(False, custom::_and(False, True));
+    EXPECT_EQ(Unknown, custom::_and(Unknown, Unknown));
+    EXPECT_EQ(Unknown, custom::_and(Unknown, True));
+    EXPECT_EQ(True, custom::_and(True, True));
+}
+
+TEST(op_test, _or_) {
+    EXPECT_EQ(False, custom::_or(False, False));
+    EXPECT_EQ(Unknown, custom::_or(False, Unknown));
+    EXPECT_EQ(True, custom::_or(False, True));
+    EXPECT_EQ(Unknown, custom::_or(Unknown, Unknown));
+    EXPECT_EQ(True, custom::_or(Unknown, True));
+    EXPECT_EQ(True, custom::_or(True, True));
+}
+
+TEST(op_test, _not) {
+    EXPECT_EQ(False, custom::_not(True));
+    EXPECT_EQ(True, custom::_not(False));
+    EXPECT_EQ(Unknown, custom::_not(Unknown));
+}
+
+TEST_F(TritsetTest, and_test) {
+    (*t1)[31] = True;
+    (*t2)[31] = Unknown;
+    *t3 = *t1 & *t2;
+    EXPECT_EQ(Unknown, (Trit)(*t3)[31]);
+}
+
+TEST_F(TritsetTest, or_test) {
+    (*t1)[31] = True;
+    (*t2)[31] = Unknown;
+    *t3 = *t1 | *t2;
+    EXPECT_EQ(True, (Trit)(*t3)[31]);
+}
+
+TEST_F(TritsetTest, not_test) {
+    (*t1)[16] = True;
+    *t2 = ~(*t1);
+    EXPECT_EQ(False, (Trit)(*t2)[16]);
+
+    (*t1)[66] = False;
+    *t1 = ~(*t1);
+    EXPECT_EQ(True, (Trit)(*t1)[66]);
+
+    (*t1)[66] = Unknown;
+    *t1 = ~(*t1);
+    EXPECT_EQ(Unknown, (Trit)(*t1)[66]);
+}
 
 /*int main() {
 

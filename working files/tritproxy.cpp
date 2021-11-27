@@ -4,11 +4,11 @@
 
 namespace custom {
 
-    TritProxy::TritProxy(Tritset &origin, size_t index) : origin(origin) {
+    TritProxy::TritProxy(Tritset &origin, size_t trit_index) : origin(origin) {
         this->origin = origin;
-        this->trit_index = index;
-        this->uint_index = _uint(index);
-        size_t pos = 15 - (index % (sizeof(uint) * 8 / 2));
+        this->trit_index = trit_index;
+        this->uint_index = _uint(trit_index);
+        size_t pos = 15 - (trit_index % (sizeof(uint) * 8 / 2));
         this->shift = pos * 2;
     }
 
