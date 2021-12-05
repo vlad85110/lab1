@@ -23,11 +23,11 @@ namespace custom {
         return *this;
     }
 
-    void TritProxy::write(size_t value) {
+    void TritProxy::write(size_t value) const {
         origin.set_trit(uint_index, shift, value);
     }
 
-    TritProxy::operator Trit() {
+    TritProxy::operator Trit() const {
         return origin.get_trit(uint_index, shift);
     }
 }

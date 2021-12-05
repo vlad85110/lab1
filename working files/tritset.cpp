@@ -15,9 +15,7 @@ namespace custom {
         else
             this->size =0;
 
-        data = new uint [this->size];
-        for (size_t i = 0; i < this->size; ++i)
-            data[i] = 0;
+        data = (uint *)calloc(this->size, sizeof(uint));
         assert(data);
     }
 
@@ -27,7 +25,7 @@ namespace custom {
         delete [] data;
     }
 
-    size_t Tritset::capacity() const {
+    const size_t Tritset::capacity() const {
         return _trit(size);
     }
 
@@ -39,7 +37,7 @@ namespace custom {
         }
 
         size_t new_size = round_up(trit_size * 2, 8 * sizeof(uint));
-        auto temp = new uint [new_size];
+        uint * temp = (uint *)calloc(new_size, sizeof(uint));//new uint [new_size];
         for (int i = 0; i < size && i <new_size; ++i)
             temp[i] = data[i];
 
@@ -74,7 +72,7 @@ namespace custom {
         data[index] |= value << shift;
     }
 
-    Trit Tritset::get_trit(size_t index, size_t shift) {
+    const Trit Tritset::get_trit(size_t index, size_t shift) const {
         if (_trit(index) >= capacity())
             return Unknown;
 
@@ -92,7 +90,7 @@ namespace custom {
             }
     }
 
-    Tritset Tritset::operator &(Tritset &s_2) {
+    Tritset Tritset::operator&(const Tritset &s_2) const {
         size_t res_size = max(this->capacity(), s_2.capacity());
         Tritset res(res_size);
         size_t t_1, t_2;
@@ -107,7 +105,7 @@ namespace custom {
         return res;
     }
 
-    Tritset Tritset::operator|(Tritset &s_2) {
+    Tritset Tritset::operator|(const Tritset &s_2) const {
         size_t res_size = max(this->capacity(), s_2.capacity());
         Tritset res(res_size);
         size_t t_1, t_2;
@@ -122,7 +120,7 @@ namespace custom {
         return res;
     }
 
-    Tritset Tritset::operator~() {
+    Tritset Tritset::operator~() const {
         Tritset res (this->capacity());
         size_t t;
 
@@ -134,20 +132,67 @@ namespace custom {
         return res;
     }
 
-    std::unordered_map<Trit, int, std::hash<int>> Tritset::cardinality() {
+    const size_t Tritset::cardinality(Trit value) const {
+        size_t cnt = 0;
+        size_t l_sh = 0;
 
+        if (value == Unknown) {
+            size_t last_ind = size - 1;
+
+            for (size_t i = size - 1; i != 0; i--)
+                if (data[i] != 0) {
+                    last_ind = i;
+                    break;
+                }
+
+            for (size_t sh = 30; sh != 0; sh -= 2)
+                if (get_trit(last_ind, sh) != value)
+                    l_sh = sh;
+
+            for (size_t i = 0; i < last_ind; ++i)
+                for (size_t sh = 0; sh <= 30; sh += 2) {
+                    if (get_trit(i, sh) == value)
+                        cnt++;
+                }
+
+            for (int sh = 30; sh != l_sh - 2; sh -= 2) {
+                if (get_trit(last_ind, sh) == value)
+                    cnt++;
+            }
+            return cnt;
+        }
+
+        for (size_t i = 0; i < size; ++i)
+            for (size_t sh = 0; sh <= 30; sh += 2)
+                if (get_trit(i, sh) == value)
+                    cnt++;
+
+        return cnt;
+    }
+
+    const std::unordered_map<Trit, int, std::hash<int>> Tritset::cardinality() const {
+        std::unordered_map<Trit, int, std::hash<int>> res;
+        for (int i = 0; i < size; ++i)
+            for (int sh = 0; sh <= 30; sh += 2)
+                res[get_trit(i, sh)]++;
+        return res;
     }
 
     void Tritset::trim(size_t lastIndex) {
         resize(lastIndex + 1);
+
+        for (size_t sh = 30 - 2 * (lastIndex % 16); sh != -2; --sh) {
+           set_trit(_uint(lastIndex),sh, Unknown);
+        }
     }
 
-    size_t Tritset::length() {
+     const size_t Tritset::length() const {
         for (size_t ind = size - 1; ind >= 0; --ind)
             if (data[ind] != 0)
                 for (size_t sh = 30, pos = 0; sh >= 0; sh -= 2, pos +=2)
                     if (get_trit(ind, sh) != Unknown)
-                        return _trit(ind) + pos;
+                        return _trit(ind) + pos / 2 + 1;
+        return 0;
     }
 
 

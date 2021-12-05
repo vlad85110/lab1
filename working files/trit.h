@@ -21,13 +21,13 @@ namespace custom {
         size_t trit_index;
         size_t shift;
 
-        void write(size_t value);
+        void write(size_t value) const;
     public:
         TritProxy(Tritset &origin, size_t index);
 
         TritProxy &operator=(uint value);
 
-        operator Trit();
+        operator Trit() const;
     };
 
     class Tritset {
@@ -41,7 +41,7 @@ namespace custom {
 
         void set_trit(size_t index, size_t pos, size_t value);
 
-        Trit get_trit(size_t index, size_t pos);
+        const Trit get_trit(size_t index, size_t pos) const;
     public:
         Tritset();
 
@@ -49,7 +49,7 @@ namespace custom {
 
         ~Tritset();
 
-        size_t capacity() const;
+        const size_t capacity() const;
 
         void resize(size_t new_size);
 
@@ -59,17 +59,19 @@ namespace custom {
 
         void shrink();
 
-        Tritset operator&(Tritset &s_2);
+        Tritset operator&(const Tritset &s_2) const;
 
-        Tritset operator|(Tritset &s_2);
+        Tritset operator|(const Tritset &s_2) const;
 
-        Tritset operator~();
+        Tritset operator~() const;
 
-        std::unordered_map< Trit, int, std::hash<int> > cardinality();
+        const size_t cardinality(Trit value) const;
+
+        const std::unordered_map< Trit, int, std::hash<int> > cardinality() const;
 
         void trim(size_t lastIndex);
 
-        size_t length();
+        const size_t length() const;
     };
 
     class TritsetTest : public ::testing::Test {

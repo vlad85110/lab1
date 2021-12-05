@@ -165,8 +165,44 @@ TEST_F(TritsetTest, not_test) {
     EXPECT_EQ(Unknown, (Trit)(*t1)[66]);
 }
 
-/*int main() {
+TEST_F(TritsetTest, cardinality_test) {
+    t1->resize(64);
+    EXPECT_EQ(64, t1->cardinality(Unknown));
 
-   return 0;
-}*/
-                    
+    (*t1)[31] = True;
+    (*t1)[35] = True;
+    (*t1)[40] = True;
+    (*t1)[51] = True;
+    (*t1)[61] = True;
+    EXPECT_EQ(5, t1->cardinality(True));
+    EXPECT_EQ(57, t1->cardinality(Unknown));
+
+    (*t1)[30] = False;
+    (*t1)[32] = False;
+    (*t1)[43] = False;
+    (*t1)[52] = False;
+    EXPECT_EQ(4, t1->cardinality(False));
+    EXPECT_EQ(53, t1->cardinality(Unknown));
+
+    auto res = t1->cardinality();
+    EXPECT_EQ(4, res[False]);
+    EXPECT_EQ(5, res[True]);
+    EXPECT_EQ(55, res[Unknown]);
+
+}
+
+TEST_F(TritsetTest, trim_test) {
+    t1->resize(65);
+    (*t1)[63] = False;
+    t1->trim(63);
+    EXPECT_EQ(64, t1->capacity());
+    EXPECT_EQ(Unknown, (Trit)(*t1)[63]);
+}
+
+TEST_F(TritsetTest, length_test) {
+    (*t1)[630] = False;
+    EXPECT_EQ(631, t1->length());
+
+    (*t2)[900] = True;
+    EXPECT_EQ(901, t2->length());
+}
