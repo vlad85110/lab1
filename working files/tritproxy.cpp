@@ -30,4 +30,6 @@ namespace custom {
     TritProxy::operator Trit() const {
         return origin.get_trit(uint_index, shift);
     }
+
+
 }

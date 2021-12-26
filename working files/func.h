@@ -1,6 +1,7 @@
-#include <iostream>
-#include <cassert>
-#include <vector>
+#pragma once
+typedef unsigned int uint;
+typedef unsigned long size_t;
+
 
 
 namespace custom {

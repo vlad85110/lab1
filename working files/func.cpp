@@ -1,6 +1,5 @@
 #include "func.h"
 #include "trit.h"
-#include <cmath>
 
 
 namespace custom {
@@ -19,15 +18,15 @@ namespace custom {
     void print_trit (Trit val) {
        switch (val) {
            case 0: {
-               std::cout << "unknown ";//<< std::endl;
+               std::cout << "unknown ";
                break;
            }
            case 1: {
-               std::cout << "true "; //<< std::endl;
+               std::cout << "true ";
                break;
            }
            case 2: {
-               std::cout << "false "; //<< std::endl;
+               std::cout << "false ";
                break;
            }
        }

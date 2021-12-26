@@ -46,9 +46,15 @@ namespace custom {
         data = temp;
     }
 
-    TritProxy Tritset::operator[](int index) {
+    TritProxy Tritset::operator[](size_t index) {
         TritProxy temp(*this, index);
         return temp;
+    }
+
+    Trit Tritset::operator[](size_t index) const {
+        size_t trit_index = index;
+        size_t pos = 15 - (trit_index % (sizeof(uint) * 8 / 2));
+        return get_trit(_uint(trit_index), pos * 2);
     }
 
     Tritset & Tritset::operator=(const Tritset &obj) {
@@ -195,8 +201,48 @@ namespace custom {
         return 0;
     }
 
+    Tritset::Iterator::Iterator(Tritset *origin, size_t index)  {
+        this->index = index;
+        this->origin = origin;
+    }
 
-/*class for testing*/
+    Tritset::Iterator Tritset::Iterator::operator++() {
+        index++;
+    }
+
+    Tritset::Iterator Tritset::Iterator::operator--() {
+        index--;
+    }
+
+    bool Tritset::Iterator::operator==(const Iterator &it) const {
+        if (this->index == it.index && this->origin == it.origin)
+            return true;
+        else
+            return false;
+    }
+
+    bool Tritset::Iterator::operator!=(const Iterator &it) const {
+        if (this->operator==(it))
+            return false;
+        else
+            return true;
+    }
+
+    TritProxy Tritset::Iterator::operator*() {
+        return  (*origin)[index];
+    }
+
+    Tritset::Iterator Tritset::begin() {
+        return Tritset::Iterator(this, 0);
+    }
+
+    Tritset::Iterator Tritset::end() {
+        return Tritset::Iterator(this, _trit(size) - 1);
+    }
+
+
+
+    /*class for testing*/
     void TritsetTest::SetUp() {
        t1 = new Tritset(10);
        t2 = new Tritset(16);

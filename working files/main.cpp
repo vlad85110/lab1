@@ -1,8 +1,9 @@
 #include "func.h"
 #include "trit.h"
+#include <iostream>
+#include <gtest/gtest.h>
 
 
-using namespace std;
 using custom::Unknown;
 using custom::True;
 using custom::False;
@@ -205,4 +206,18 @@ TEST_F(TritsetTest, length_test) {
 
     (*t2)[900] = True;
     EXPECT_EQ(901, t2->length());
+}
+
+TEST_F(TritsetTest, iterator_test) {
+    t1->resize(10);
+    for (auto trit: *t1) trit = True;
+
+    for (auto  trit: *t1) ASSERT_EQ(trit, True);
+}
+
+TEST_F(TritsetTest, const_brackets) {
+    const custom::Tritset T(100);
+
+    Trit t = T[10];
+    EXPECT_EQ(t, Unknown);
 }

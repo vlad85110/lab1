@@ -1,6 +1,7 @@
-#include <iostream>
+#pragma once
 #include <unordered_map>
 #include <gtest/gtest.h>
+#include <iterator>
 
 namespace custom {
     class Tritset;
@@ -43,6 +44,28 @@ namespace custom {
 
         const Trit get_trit(size_t index, size_t pos) const;
     public:
+        class Iterator {
+        private:
+            Tritset *origin;
+            size_t index;
+        public:
+            Iterator(Tritset *origin, size_t index);
+
+            Iterator operator++();
+
+            Iterator operator--();
+
+            bool operator==(const Iterator& it) const;
+
+            bool operator!=(const Iterator& it) const;
+
+            TritProxy operator*();
+        };
+
+        Iterator begin();
+
+        Iterator end();
+
         Tritset();
 
         explicit Tritset(size_t length);
@@ -53,7 +76,9 @@ namespace custom {
 
         void resize(size_t new_size);
 
-        TritProxy operator[](int index);
+        TritProxy operator[](size_t index);
+
+        Trit operator[](size_t index) const;
 
         Tritset & operator=(const Tritset &obj);
 
@@ -72,6 +97,8 @@ namespace custom {
         void trim(size_t lastIndex);
 
         const size_t length() const;
+
+
     };
 
     class TritsetTest : public ::testing::Test {
